@@ -1,0 +1,1 @@
+A simple search engine that runs on Node and support basic crawling, indexing and querying.
