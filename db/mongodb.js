@@ -38,6 +38,8 @@ exports.getDocIndex = function(){
 	return new Promise(function (resolve, reject) {
 		new MongoIndex().then(function(docIndex){
 			resolve(docIndex);
+		}).catch(function(err){
+			reject(err);
 		});
 	});
 };
