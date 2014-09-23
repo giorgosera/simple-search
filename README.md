@@ -5,26 +5,24 @@ A simple search engine that runs on Node.JS, Express and MongoDB. It support bas
 
 ## Usage
 
-You can use the search engine either via a REST API using HTTP requests.
+You can use the search engine via a REST API using HTTP requests. 
 
-###RESTful API
-
-** Indexing API**
+** Indexing API
 
 You can index a document using the index endpoint ```/index```.
 
-**Example**
+** Example
 ```
 $ curl -XPOST 'http://localhost:3000/index/1' 
 	-H "Content-Type: application/json" 
 	-d '{"_body" : "This is an example doc."}'
 ```
 
-** Searching API**
+** Searching API
 
 You can search the index using the index endpoint ```/search```.
 
-**Example**
+** Example
 ```
 $ curl -XGET 'http://localhost:3000/search' 
 	-H "Content-Type: application/json" 
