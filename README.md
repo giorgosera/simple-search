@@ -9,11 +9,27 @@ You can use the search engine either via a REST API using HTTP requests.
 
 ###RESTful API
 
-** Indexing **
-/index
+** Indexing API**
 
-** Searching **
-/search
+You can index a document using the index endpoint ```/index```.
+
+**Example**
+```
+$ curl -XPOST 'http://localhost:3000/index/1' 
+	-H "Content-Type: application/json" 
+	-d '{"_body" : "This is an example doc."}'
+```
+
+** Searching API**
+
+You can search the index using the index endpoint ```/search```.
+
+**Example**
+```
+$ curl -XGET 'http://localhost:3000/search' 
+	-H "Content-Type: application/json" 
+	-d '{"q" : "example document"}'
+```
 
 ###Command line
 

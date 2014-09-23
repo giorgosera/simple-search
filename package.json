@@ -16,7 +16,8 @@
   "devDependencies": {
     "mocha": "",
     "should": "",
-    "nodemon": "^1.2.1"
+    "nodemon": "^1.2.1",
+    "supertest": "^0.13.0"
   },
   "main": "index.js",
   "version": "0.0.1",
@@ -28,6 +29,7 @@
     "commander": "^2.3.0",
     "natural": "^0.1.28",
     "winston": "^0.8.0",
-    "mongodb": "^1.4.12"
+    "mongodb": "^1.4.12",
+    "body-parser": "^1.8.3"
   }
 }

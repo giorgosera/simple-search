@@ -1,19 +1,14 @@
 var searchEngine = require('./lib/main'),
 	mongodb = require('./db/mongodb'),
-	index = require('./lib/index'),
+	indexer = require('./lib/indexer'),
 	logger = require('./lib/logger');
 
-/*
-You can modify this module to inject another 
-implementation of an index and an indexer
-*/
-
 mongodb.getDocIndex().then(function(docIndex){
-	return index.createIndexer({
-		docIndex: docIndex
-	});
+	return searchEngine.setIndex(docIndex);
 }).then(function(indexer){
-	searchEngine.start(indexer);
+	return searchEngine.setIndexer(indexer);
+}).then(function(){
+	return searchEngine.start();
 }).catch(function(err){
 	logger.error("Failed to initialize search engine server: " + err.message + "\n" + err.stack);
 	process.exit(1);
