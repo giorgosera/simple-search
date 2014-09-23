@@ -31,28 +31,12 @@ $ curl -XGET 'http://localhost:3000/search'
 	-d '{"q" : "example document"}'
 ```
 
-###Command line
+## Contributing
 
-** Crawling **
+If you wish to contribute to the development of this project please fork and send your pull requests.
 
-You can start the crawler using ```simple-crawl -s <the_start_url>```
+1. Fork the repo
+2. ```npm install``` to install the dependencies
+3. ```npm start``` or ```nodemon index.js``` to start the search engine server
 
-```
-$ simple-crawl --help
-
-  Usage: simple-crawl [options]
-
-  Options:
-
-    -h, --help                 output usage information
-    -V, --version              output the version number
-    -s, --starturl <starturl>  The initial url
-```
-
-## Design Choices
-
-**Promises**
-Promises are used for readability and proper error handling.
-
-**MongoDB**
-MongoDB is used in the current version but you can use any other database you wish. You can create an index with another database and pass it to the indexer during construction, as long as you comply with the following API (todo show API here).  
+If you want to run the tests use ```npm test```

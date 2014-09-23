@@ -46,23 +46,45 @@ MongoIndex.prototype.add = function(docId, body, terms) {
 
 MongoIndex.prototype.retrieve = function(queryTerms){
 	return new Promise(function (resolve, reject) {
-		this.db.collectionAsync('index').then(function(collection){
-			queryTerms = queryTerms.map(function(term){
-				return {
-					'terms.term': term
-				};
-			});
+		this.db.collectionAsync('index').bind(this).then(function(collection){
 			return collection.findAsync({
-				$or:queryTerms
+				$or:queryTerms.map(function(term){
+						return {
+							'terms.term': term
+						};
+					})
 			});
 		}).then(function(cursor){
 			return cursor.toArrayAsync();
 		}).then(function(docs){
-			resolve(docs);
+			return this.rank(queryTerms, docs);
+		}).then(function(rankedDocs){
+			resolve(rankedDocs);
 		}).catch(function(err){
 			reject(err);
 		});
 	}.bind(this));
+};
+
+MongoIndex.prototype.rank = function(queryTerms, docs){
+	return new Promise(function (resolve, reject) {
+		docs.forEach(function(doc){
+			doc.score = 0;
+			doc.terms.forEach(function(term) {
+				// Only look at the term if it is part of the query
+				if (queryTerms.indexOf(term.term) != -1) {
+					doc.score += term.weight;
+					//TODO: calculate IDF
+					doc.score *= Math.log(docs.length/1);
+				}
+			});
+			delete doc.terms;
+		});
+		docs.sort(function compare(a, b) {
+			return b.score-a.score;
+		});
+		resolve(docs);
+	});
 };
 
 exports.getDocIndex = function(){

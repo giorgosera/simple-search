@@ -23,9 +23,7 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "4.9.3",
-    "request": "^2.44.0",
     "bluebird": "^2.3.2",
-    "cheerio": "^0.17.0",
     "commander": "^2.3.0",
     "natural": "^0.1.28",
     "winston": "^0.8.0",
