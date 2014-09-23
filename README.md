@@ -7,22 +7,22 @@ A simple search engine that runs on Node.JS, Express and MongoDB. It support bas
 
 You can use the search engine via a REST API using HTTP requests. 
 
-*Indexing API*
+**Indexing API**
 
 You can index a document using the index endpoint ```/index```.
 
-*Example*
+**Example**
 ```
 $ curl -XPOST 'http://localhost:3000/index/1' 
 	-H "Content-Type: application/json" 
 	-d '{"_body" : "This is an example doc."}'
 ```
 
-*Searching API*
+**Searching API**
 
 You can search the index using the index endpoint ```/search```.
 
-*Example*
+**Example**
 ```
 $ curl -XGET 'http://localhost:3000/search' 
 	-H "Content-Type: application/json" 
@@ -31,7 +31,7 @@ $ curl -XGET 'http://localhost:3000/search'
 
 ## Custom Index
 
-The project works out of the box with MongoDB for inverted index creation. If you wish to use a different backend storage then you can do so by defining a custom index. All you need to do is create a new object that implements the following API
+The project works out of the box with MongoDB for inverted index creation. If you wish to use a different backend storage then you can do so by defining a custom index. All you need to do is create a new object that implements the following API:
 
 ```add(docId, body, terms)``` - This function takes as arguments a document id, body and an array of terms which you can use to store this document in your custom index. It should return a Promise. 
 ```retrieve(terms)``` - This function takes as arguments an array of query terms. You should retrieve and rank your docs using these terms. It should return a promise. 
