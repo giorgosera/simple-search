@@ -6,7 +6,7 @@ var MockIndex = function(){
 	}.bind(this));
 };
 
-MockIndex.prototype.add = function(docId, terms) {
+MockIndex.prototype.add = function(docId, body, terms) {
 	return new Promise(function (resolve, reject) {
 		resolve({
 			id: docId,
@@ -15,12 +15,4 @@ MockIndex.prototype.add = function(docId, terms) {
 	});
 };
 
-exports.getMockIndex = function(){
-	return new Promise(function (resolve, reject) {
-		new MockIndex().then(function(docIndex){
-			resolve(docIndex);
-		}).catch(function(err){
-			reject(err);
-		});
-	});
-};
+module.exports = MockIndex;

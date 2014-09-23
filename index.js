@@ -1,12 +1,10 @@
 var searchEngine = require('./lib/main'),
-	mongodb = require('./db/mongodb'),
+	MongoIndex = require('./db/mongodb'),
 	indexer = require('./lib/indexer'),
 	logger = require('./lib/logger');
 
-mongodb.getDocIndex().then(function(docIndex){
+new MongoIndex().then(function(docIndex){
 	return searchEngine.setIndex(docIndex);
-}).then(function(indexer){
-	return searchEngine.setIndexer(indexer);
 }).then(function(){
 	return searchEngine.start();
 }).catch(function(err){
