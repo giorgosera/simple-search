@@ -15,26 +15,27 @@ var MongoIndex = function(){
 	}.bind(this));
 };
 
-MongoIndex.prototype.add = function(docId, body, terms) {
+MongoIndex.prototype.add = function(indexName, docId, body, terms) {
 	return new Promise(function (resolve, reject) {
-		this.db.collectionAsync('index').then(function(collection) {
-			collection.ensureIndexAsync("terms.term").then(function(){
-				var termsList = [];
-				for(var term in terms) {
-					if (terms.hasOwnProperty(term)) {
-						termsList.push({
-							term: term,
-							weight: terms[term]
-						});
-					}
+		this.db.collectionAsync(indexName).bind({}).then(function(collection) {
+			this.collection = collection;
+			return collection.ensureIndexAsync("terms.term");
+		}).then(function(){
+			var termsList = [];
+			for(var term in terms) {
+				if (terms.hasOwnProperty(term)) {
+					termsList.push({
+						term: term,
+						weight: terms[term]
+					});
 				}
-				var doc = {
-					doc_id: docId,
-					body: body,
-					terms: termsList
-				};
-				return collection.insertAsync(doc, {w:1});
-			});
+			}
+			var doc = {
+				doc_id: docId,
+				body: body,
+				terms: termsList
+			};
+			return this.collection.insertAsync(doc, {w:1});
 		}).then(function(result){
 			resolve(result);
 		}).catch(function(err){
@@ -43,9 +44,13 @@ MongoIndex.prototype.add = function(docId, body, terms) {
 	}.bind(this));
 };
 
-MongoIndex.prototype.retrieve = function(queryTerms){
+MongoIndex.prototype.retrieve = function(indexName, queryTerms){
 	return new Promise(function (resolve, reject) {
-		this.db.collectionAsync('index').bind(this).then(function(collection){
+		if (queryTerms.length === 0){
+			resolve([]);
+		}
+
+		this.db.collectionAsync(indexName).bind(this).then(function(collection){
 			return collection.findAsync({
 				$or:queryTerms.map(function(term){
 						return {
@@ -56,7 +61,7 @@ MongoIndex.prototype.retrieve = function(queryTerms){
 		}).then(function(cursor){
 			return cursor.toArrayAsync();
 		}).then(function(docs){
-			return this.rank(queryTerms, docs);
+			return this.rank(indexName, queryTerms, docs);
 		}).then(function(rankedDocs){
 			resolve(rankedDocs);
 		}).catch(function(err){
@@ -65,9 +70,9 @@ MongoIndex.prototype.retrieve = function(queryTerms){
 	}.bind(this));
 };
 
-MongoIndex.prototype.rank = function(queryTerms, docs){
+MongoIndex.prototype.rank = function(indexName, queryTerms, docs){
 	return new Promise(function (resolve, reject) {
-		this.db.collectionAsync('index').then(function(collection){
+		this.db.collectionAsync(indexName).then(function(collection){
 			var queries = {};
 			for (var i=0; i<queryTerms.length; i++){
 				queries[queryTerms[i]] = collection.countAsync({

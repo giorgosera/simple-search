@@ -6,7 +6,7 @@ var MockIndex = function(){
 	}.bind(this));
 };
 
-MockIndex.prototype.add = function(docId, body, terms) {
+MockIndex.prototype.add = function(indexName, docId, body, terms) {
 	return new Promise(function (resolve, reject) {
 		resolve({
 			id: docId,

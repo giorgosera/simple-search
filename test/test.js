@@ -10,7 +10,7 @@ describe('Test suite for simple-search', function(){
 	before(function(done){
 		//Intialize search engine with a mock db
 		new MockIndex().then(function(mockIndex){
-			return searchEngine.setIndex(mockIndex);
+			return searchEngine.setDb(mockIndex);
 		}).then(function(){
 			return searchEngine.start();
 		}).then(function(searchEngineInstance){
@@ -26,7 +26,7 @@ describe('Test suite for simple-search', function(){
 	describe('The Index API', function(){
 		it('should tokenize, stem and calculcate term frequencies for a document', function(done){
 			request(app)
-				.post('/index/1')
+				.post('/index/testIndex/1')
 				.send({
 					_body: "This is a test document. It is simply a sentence, not really a document!"
 				})
@@ -47,21 +47,23 @@ describe('Test suite for simple-search', function(){
 				});
 		});
 
-		it('should return an error if document body is missing', function(done){
+		it('should return an error if the document body is missing', function(done){
+			request(app)
+				.post('/index/testIndex/1')
+				.expect(400, done);
+		});
+
+		it('should return an error if the index name is missing', function(done){
 			request(app)
 				.post('/index/1')
-				.expect(400, done);
+				.expect(404, done);
 		});
 	});
 
 	describe('The Search API', function(){
-		it('should return search results ordered by score', function(done){
-			true.should.be.false;
-		});
-
 		it('should return an error if query string is missing', function(done){
 			request(app)
-				.get('/search')
+				.get('/search/testIndex')
 				.expect(400, done);
 		});
 	});

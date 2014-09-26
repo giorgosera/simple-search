@@ -3,8 +3,8 @@ var searchEngine = require('./lib/main'),
 	indexer = require('./lib/indexer'),
 	logger = require('./lib/logger');
 
-new MongoIndex().then(function(docIndex){
-	return searchEngine.setIndex(docIndex);
+new MongoIndex().then(function(mongoIndex){
+	return searchEngine.setDb(mongoIndex);
 }).then(function(){
 	return searchEngine.start();
 }).catch(function(err){
