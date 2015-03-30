@@ -3,7 +3,7 @@ A simple search engine that runs on Node.JS, Express and MongoDB. It support bas
 ## Features
 - Multi-index search
 - RESTful API for indexing and searching
-- [Replacable backend storage](#custom-index) for indices (uses MongoDB out of the box)
+- [Replacable backend storage](#custom-backend) for indices (uses MongoDB out of the box)
 
 ## Installation
 ```npm install simple-search```
@@ -47,7 +47,8 @@ Finally, in the [index.js](https://github.com/giorgosera/simple-search/blob/mast
 If you wish to contribute to the development of this project please fork and send your pull requests.
 
 1. Fork the repo
-2. ```npm install``` to install the dependencies
-3. ```npm start``` or ```nodemon index.js``` to start the search engine server
+* ```npm install``` to install the dependencies
+* [Install MongoDB](http://docs.mongodb.org/manual/administration/install-on-linux/) (or your chosen backend system)
+* ```npm start``` or ```nodemon index.js``` to start the search engine server
 
 If you want to run the tests use ```npm test```
