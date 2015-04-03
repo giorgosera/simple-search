@@ -1,11 +1,14 @@
 var MockIndex = require('./mockDb'),
 	assert = require("assert"),
 	should = require('should'),
+	expect = require('expect'),
 	searchEngine = require('../lib/main'),
 	request = require('supertest'),
 	logger = require('../lib/logger'),
+	Cache = require('../lib/linkedHashMap')
 	app = null;
 
+    
 describe('Test suite for simple-search', function(){
 	before(function(done){
 		//Intialize search engine with a mock db
@@ -67,4 +70,18 @@ describe('Test suite for simple-search', function(){
 				.expect(400, done);
 		});
 	});
+    
+    
+    describe('The LRU Cache API', function(){
+        it('should have a default size', function(){
+            var cache = new Cache();
+            should(cache.maxLength).be.equal(10000);
+        });
+        
+        it('should return an error if no values are passed', function(){
+            var cache = new Cache(42);
+            var result = cache.addItem();
+            should.equal(result,null);
+        });
+    });
 });
