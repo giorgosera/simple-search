@@ -74,7 +74,6 @@ describe('Test suite for simple-search', function(){
     
     
     describe('The LRU Cache API', function(){
-        var cache = new Cache(1);       //max elements 1 to test functionality
         
         it('should have a default size', function(){
             var cache = new Cache();
@@ -82,11 +81,13 @@ describe('Test suite for simple-search', function(){
         });
         
         it('should return an error if no values are passed', function(){
+            var cache = new Cache();
             var result = cache.addItem();
             should.equal(result,null);
         });
         
         it('should return null if no key is passed in cache', function(){
+            var cache = new Cache();
             var result = cache.get();
             should.equal(result,null);
         });
