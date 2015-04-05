@@ -123,8 +123,34 @@ describe('Test suite for simple-search', function(){
                 });
         });
         
+        it('should always add the new item at the head of the list', function(){
+            var cache = new Cache(2); // created new empty cache
+            cache.addItem('foo',42);
+            cache.addItem('foo1',43);   //this should be at the head
+            var result = cache.get('foo1');
+            result.next.value.should.be.equal(42); //meaning the next value of head should point at foo-42
+        });
         
+        it('should delete oldest item(tail) when cache size is reached', function(){
+            var cache = new Cache(4); // created new cache with size 4
+            cache.addItem('foo',42);
+            cache.addItem('foo1',43);
+            cache.addItem('foo2',44);   //max size reached, foo-42 should be deleted,and 
+            cache.addItem('foo3',45);
+            cache.addItem('foo4',46);
+            //we inserted 5 items in a 4sized list so our new tail according to insertion order should be foo1, 43
+            cache.tail.value.should.be.equal(43);
+        });
         
-        
+        it('should persist our access order',function(){
+            var cache = new Cache(4); // created new cache with size 4
+            cache.addItem('foo',42);
+            cache.addItem('foo1',43);
+            cache.addItem('foo2',44);    
+            cache.addItem('foo3',45);   //this is the curr head
+            var result = cache.get('foo2');     //we accessed pair foo2-44, meaning that should be our new head
+            cache.addItem('foo2',44);
+            cache.head.value.should.be.equal(44);
+        })
     });
 });

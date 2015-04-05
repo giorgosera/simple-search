@@ -15,10 +15,14 @@ MockIndex.prototype.add = function(indexName, docId, body, terms) {
 	});
 };
 
-MockIndex.prototype.retrieve = function(indexName, queryTerms){
+MockIndex.prototype.retrieve = function(indexName, queryTerms,docId,body){
+    var doc = {
+                doc_id: docId,
+                body: body,
+            };
     return new Promise(function (resolve, reject) {
         resolve({
-            terms: queryTerms
+            docs: doc
         });
     });
 };
