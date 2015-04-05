@@ -153,5 +153,13 @@ describe('Test suite for simple-search', function(){
             cache.addItem('foo2',44);
             cache.head.value.should.be.equal(44);
         })
+        
+        it('should delete duplicate items',function(){
+            var cache = new Cache(4); // created new cache with size 4
+            cache.addItem('foo',42);
+            cache.addItem('foo1',43);
+            cache.addItem('foo',42);
+            cache.length.should.be.equal(2);
+        })
     });
 });
